@@ -88,6 +88,7 @@ class ReparametrizableCurve(Manifold):
         else:
             raise ValueError(f"Invalid parameter type {param_type}.")
         self.ambient_manifold = ambient_manifold
+        self.frenet_serret_frames = None
 
     def curvatures(self, max_order=None, atol=gs.atol, **kwargs):
         """Comuptes curvatures of all orders up to max_order.
@@ -154,6 +155,8 @@ class ReparametrizableCurve(Manifold):
             cur_dim_vals = nd[:, ii, :]
             Q, _ = np.linalg.qr(cur_dim_vals)
             evs[:, ii, :] = Q[:, : max_order + 1]
+
+        self.frenet_serret_frames = evs
 
         gc = np.zeros((max_order, s_points_T.shape[1]))
 

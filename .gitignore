@@ -125,6 +125,7 @@ dmypy.json
 
 # VSCode
 .vscode/
+*.swp
 
 # Mac
 *.DS_Store
@@ -148,5 +149,8 @@ venv/
 *.pkl
 
 
-#ignore benchmarks generated timings
+# ignore benchmarks generated timings
 benchmarks/*.json
+
+# Specific notebooks
+generalized_curvatures_*.ipynb
