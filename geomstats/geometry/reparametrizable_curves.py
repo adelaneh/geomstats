@@ -52,6 +52,11 @@ class ReparametrizableCurve(Manifold):
             dim=math.inf, shape=(), default_point_type="vector", **kwargs
         )
         self.t_curve, self.s_curve = {}, {}
+
+        match_s_t_curve_lengths = False
+        if "match_s_t_curve_lengths" in kwargs:
+            match_s_t_curve_lengths = kwargs["match_s_t_curve_lengths"]
+
         srt_params = sorted(list(points.keys()))
         if srt_params[0] != 0:
             raise ValueError(
@@ -81,9 +86,13 @@ class ReparametrizableCurve(Manifold):
             for idx, kk in enumerate(srt_params):
                 self.s_curve[kk] = points[kk]
                 if idx > 0:
-                    sum_s += np.linalg.norm(
+                    s_delta = np.linalg.norm(
                         self.s_curve[kk] - self.s_curve[srt_params[idx - 1]]
                     )
+                    if match_s_t_curve_lengths and s_delta == 0:
+                        s_delta = np.finfo(float).eps * curve_length
+                    sum_s += s_delta
+
                 self.t_curve[sum_s / curve_length] = points[kk]
         else:
             raise ValueError(f"Invalid parameter type {param_type}.")
