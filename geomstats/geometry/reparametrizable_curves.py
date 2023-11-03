@@ -68,7 +68,7 @@ class ReparametrizableCurve(Manifold):
                     )
                 self.s_curve[sum_s] = points[kk]
         elif param_type == "s":
-            sum_t = 0
+            sum_s = 0
             curve_length = sum(
                 [
                     np.linalg.norm(
@@ -81,7 +81,7 @@ class ReparametrizableCurve(Manifold):
             for idx, kk in enumerate(srt_params):
                 self.s_curve[kk] = points[kk]
                 if idx > 0:
-                    sum_t += np.linalg.norm(
+                    sum_s += np.linalg.norm(
                         self.s_curve[kk] - self.s_curve[srt_params[idx - 1]]
                     )
                 self.t_curve[sum_s / curve_length] = points[kk]
