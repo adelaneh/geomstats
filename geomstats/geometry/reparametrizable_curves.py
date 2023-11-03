@@ -46,16 +46,17 @@ class ReparametrizableCurve(Manifold):
     """
 
     def __init__(
-        self, points: Dict, param_type: str, ambient_manifold: Manifold, **kwargs
+        self,
+        points: Dict,
+        param_type: str,
+        ambient_manifold: Manifold,
+        match_s_t_curve_lengths: bool = False,
+        **kwargs,
     ):
         super(ReparametrizableCurve, self).__init__(
             dim=math.inf, shape=(), default_point_type="vector", **kwargs
         )
         self.t_curve, self.s_curve = {}, {}
-
-        match_s_t_curve_lengths = False
-        if "match_s_t_curve_lengths" in kwargs:
-            match_s_t_curve_lengths = kwargs["match_s_t_curve_lengths"]
 
         srt_params = sorted(list(points.keys()))
         if srt_params[0] != 0:
