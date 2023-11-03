@@ -91,9 +91,9 @@ class ReparametrizableCurve(Manifold):
                         self.s_curve[kk] - self.s_curve[srt_params[idx - 1]]
                     )
                     if match_s_t_curve_lengths and np.isclose(
-                        s_delta, 0, atol=np.finfo(float).eps
+                        s_delta, 0, atol=np.finfo(np.float32).eps
                     ):
-                        s_delta = np.finfo(float).eps * curve_length
+                        s_delta = np.finfo(np.float32).eps * curve_length
                     sum_s += s_delta
 
                 self.t_curve[sum_s / curve_length] = points[kk]
