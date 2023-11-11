@@ -51,6 +51,7 @@ class ReparametrizableCurve(Manifold):
         param_type: str,
         ambient_manifold: Manifold,
         match_s_t_curve_lengths: bool = False,
+        delta_s_precision: float = np.finfo(np.float32).eps,
         **kwargs,
     ):
         super(ReparametrizableCurve, self).__init__(
@@ -72,6 +73,10 @@ class ReparametrizableCurve(Manifold):
                     s_delta = np.linalg.norm(
                         self.t_curve[kk] - self.t_curve[srt_params[idx - 1]]
                     )
+                    if match_s_t_curve_lengths and np.isclose(
+                        s_delta, 0, atol=delta_s_precision
+                    ):
+                        s_delta = delta_s_precision
                     sum_s += s_delta
                 self.s_curve[sum_s] = points[kk]
         elif param_type == "s":
